@@ -1,0 +1,138 @@
+/* src/App.css */
+
+body > #root > div {
+  display: flex;
+  height: 100vh;
+}
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #1a1a2e;
+  padding: 20px;
+  color: white;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto; /* Allows scrolling if content overflows */
+}
+
+.users, .chat-logs {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+}
+
+.users, .chat-logs {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* src/App.css */
+
+/* Chat logs container styling */
+.chat-logs-container {
+  display: flex;
+  padding: 20px;
+}
+
+/* Users list styling */
+.users-list {
+  width: 200px;
+  margin-right: 20px;
+  border-right: 1px solid #ddd;
+  padding-right: 10px;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  padding-left: 10px;
+}
+
+/* Users list items */
+.users-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.users-list li {
+  cursor: pointer;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.users-list li.active {
+  background-color: #e0e0e0;
+  font-weight: bold;
+}
+
+.users-list li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Chat item container for aligning profile icon and message bubble */
+.chat-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.user-message {
+  flex-direction: row-reverse;
+}
+
+.user-message .profile-icon {
+  margin-left: 10px;
+  margin-right: 0;
+}
+
+.assistant-message .profile-icon {
+  margin-right: 10px;
+}
+
+/* Profile icon styling */
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Chat bubble styling */
+.chat-bubble {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  font-size: 1rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* User bubble (right-aligned, green) */
+.user-bubble {
+  background-color: #dcf8c6;
+  align-self: flex-end;
+  border-top-right-radius: 0;
+}
+
+/* Assistant bubble (left-aligned, gray) */
+.assistant-bubble {
+  background-color: #e8e8e8;
+  align-self: flex-start;
+  border-top-left-radius: 0;
+}

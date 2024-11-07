@@ -1,0 +1,17 @@
+/* src/components/Sidebar.css */
+
+.sidebar {
+  height: 100vh;
+}
+
+.${menuClasses.label} {
+  font-size: 16px;
+}
+
+.${menuClasses.icon} {
+  font-size: 20px;
+}
+
+.${menuClasses.button} {
+  padding: 10px;
+}
