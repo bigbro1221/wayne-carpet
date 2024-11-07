@@ -179,6 +179,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     except Exception as e:
         # Handle any errors by notifying the user
         error_message = "An error occurred. Please try again later."
+        print(e)
         await update.message.reply_text(error_message)
 
         # Log the error message
