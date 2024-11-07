@@ -34,13 +34,16 @@ jobs:
       - name: Set up Firebase Service Account Key
         run: |
           echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}" | base64 --decode > firebase_account_key.json
-
+          pwd
+          ls -l
 
       # Backend and Telegram Bot Deployment
       - name: Deploy backend and bot as Docker containers
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
         run: |
+          pwd
+          ls -l
           ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} << 'EOF'
             cd /var/www/wayne_carpet
 
