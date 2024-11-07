@@ -76,5 +76,5 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} << 'EOF'
             # Clear old files and copy new build files to the server's web directory
             rm -rf /var/www/html/*  # Clear old files
-            cp -r ./crm/build/* /var/www/html/  # Copy new build files
+            cp -r /home/runner/work/wayne-carpet/wayne-carpet/crm/build/* /var/www/html/  # Copy new build files
           EOF
