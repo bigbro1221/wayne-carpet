@@ -7,27 +7,35 @@ import os
 import re
 from telegram.constants import ParseMode
 from datetime import datetime
+from dotenv import load_dotenv
+from google.oauth2 import service_account
+import json
+import base64
+
+load_dotenv()
 
 # Set your Telegram bot token and API endpoint URL
-TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN", "7670291010:AAEtHCshVs_vABCqP_mNhb7LiPp4y9lIZOY")
-print(TELEGRAM_TOKEN); 
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 
 if TELEGRAM_TOKEN is None:
     raise ValueError("TELEGRAM_TOKEN environment variable is not set")
-# TELEGRAM_BOT_TOKEN  = "7670291010:AAEtHCshVs_vABCqP_mNhb7LiPp4y9lIZOY"
-WAYNE_CARPET_API_URL = os.environ.get("WAYNE_CARPET_API_URL", "http://127.0.0.1:8000/chat")
+WAYNE_CARPET_API_URL = os.getenv("WAYNE_CARPET_API_URL")
 
-print(WAYNE_CARPET_API_URL)
+firebase_service_account_base64 = os.getenv("FIREBASE_SERVICE_ACCOUNT_BASE64")
+if not firebase_service_account_base64:
+    raise ValueError("FIREBASE_SERVICE_ACCOUNT_BASE64 is not set in the environment variables.")
 
-# Path to your service account JSON key file
+# Decode the base64 string to get the JSON content
+firebase_service_account_json = json.loads(base64.b64decode(firebase_service_account_base64))
 
 # Initialize Firestore client with direct credentials
-credentials = service_account.Credentials.from_service_account_file("firebase_account_key.json")
+credentials = service_account.Credentials.from_service_account_info(firebase_service_account_json)
 
 db = firestore.Client(credentials=credentials)
 
 # Define language options
 LANGUAGE, CHAT = range(2)
+
 
 # Define greetings in different languages
 greetings = {

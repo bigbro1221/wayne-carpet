@@ -44,13 +44,11 @@ jobs:
         run: |
           pwd
           ls -l
-          scp -o StrictHostKeyChecking=no ./firebase_account_key.json ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }}:/var/www/wayne_carpet
           ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} << 'EOF'
             cd /var/www/wayne_carpet
 
             # Pull latest code
             git pull origin master
-            echo this is the key > firebase_account_key.json
             # Build and start Docker containers
             docker-compose down  # Stop existing containers
             docker-compose up -d --build  # Build and start new containers
