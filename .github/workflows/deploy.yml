@@ -43,8 +43,8 @@ jobs:
             git pull origin master
 
             # Build and start Docker containers
-            sudo docker-compose down  # Stop existing containers
-            sudo docker-compose up -d --build  # Build and start new containers
+            docker-compose down  # Stop existing containers
+            docker-compose up -d --build  # Build and start new containers
           EOF
 
       # Frontend Deployment
