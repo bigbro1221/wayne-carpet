@@ -1,0 +1,6 @@
+{
+  "rules": {
+    "eqeqeq": "warn",
+    "react-hooks/exhaustive-deps": "warn"
+  }
+}

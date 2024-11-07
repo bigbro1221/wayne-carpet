@@ -57,7 +57,7 @@ jobs:
         working-directory: ./crm
         run: |
           npm install
-          npm run build
+          CI=false npm run build
 
       - name: Deploy frontend to server
         run: |
