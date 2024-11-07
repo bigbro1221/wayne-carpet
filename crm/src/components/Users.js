@@ -56,6 +56,7 @@ const Users = () => {
     setGlobalFilterValue(value); // Update search input value
   };
 
+  
   const renderHeader = () => {
     return (
       <div className="flex justify-content-end">
