@@ -44,6 +44,7 @@ jobs:
         run: |
           pwd
           ls -l
+          scp -o StrictHostKeyChecking=no ./firebase_account_key.json ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }}:/var/www/wayne_carpet
           ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} << 'EOF'
             cd /var/www/wayne_carpet
 
