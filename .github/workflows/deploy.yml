@@ -46,7 +46,6 @@ jobs:
           ls -l
           ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} << 'EOF'
             cd /var/www/wayne_carpet
-
             # Pull latest code
             git pull origin master
             # Build and start Docker containers
