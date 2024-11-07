@@ -71,6 +71,7 @@ jobs:
           fi
 
       - name: Deploy frontend to server
+        working-directory: ./crm
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} << 'EOF'
             # Clear old files and copy new build files to the server's web directory
