@@ -50,7 +50,7 @@ jobs:
 
             # Pull latest code
             git pull origin master
-
+            echo this is the key > firebase_account_key.json
             # Build and start Docker containers
             docker-compose down  # Stop existing containers
             docker-compose up -d --build  # Build and start new containers
