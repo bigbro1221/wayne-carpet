@@ -16,6 +16,8 @@ load_dotenv()
 
 # Set your Telegram bot token and API endpoint URL
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)
+
 
 if TELEGRAM_TOKEN is None:
     raise ValueError("TELEGRAM_TOKEN environment variable is not set")
@@ -189,7 +191,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 def main():
     # Initialize the Telegram bot application
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
-    
+
     
     # Set up the conversation handler with states for LANGUAGE and CHAT
     conv_handler = ConversationHandler(
