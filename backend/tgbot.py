@@ -188,7 +188,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 def main():
     # Initialize the Telegram bot application
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
-
+    
+    
     # Set up the conversation handler with states for LANGUAGE and CHAT
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler("start", start)],
