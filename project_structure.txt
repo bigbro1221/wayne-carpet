@@ -1,0 +1,1 @@
+Get-ChildItem -Exclude "node_modules","video_ts" | tree /F /A > list.txt 
