@@ -183,3 +183,6 @@ crm/.env
 # Temporary files
 crm/.DS_Store
 crm/.parcel-cache
+
+firebase_account_key.json
+firebase_account_key.json.base64
