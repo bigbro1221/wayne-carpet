@@ -3,7 +3,7 @@ name: Deploy to Google Cloud
 on:
   push:
     branches:
-      - release
+      - master
 
 jobs:
   deploy:
@@ -11,7 +11,7 @@ jobs:
 
     env:
       TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-
+      API_URL: ${{ secrets.WAYNE_CARPET_API_URL }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -25,10 +25,10 @@ jobs:
       - name: Deploy backend and bot as Docker containers
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} << 'EOF'
-            cd /path/to/project
+            cd /var/www/wayne_carpet_bot
 
             # Pull latest code
-            git pull origin main
+            git pull origin master
 
             # Build and start Docker containers
             docker-compose down  # Stop existing containers
@@ -39,7 +39,7 @@ jobs:
       - name: Set up Node.js for frontend
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: "16"
 
       - name: Install frontend dependencies and build
         working-directory: ./crm

@@ -9,8 +9,15 @@ from telegram.constants import ParseMode
 from datetime import datetime
 
 # Set your Telegram bot token and API endpoint URL
-TELEGRAM_BOT_TOKEN  = "7670291010:AAEtHCshVs_vABCqP_mNhb7LiPp4y9lIZOY"
-API_URL = "http://127.0.0.1:8000/chat"
+TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN", "7670291010:AAEtHCshVs_vABCqP_mNhb7LiPp4y9lIZOY")
+print(TELEGRAM_TOKEN); 
+
+if TELEGRAM_TOKEN is None:
+    raise ValueError("TELEGRAM_TOKEN environment variable is not set")
+# TELEGRAM_BOT_TOKEN  = "7670291010:AAEtHCshVs_vABCqP_mNhb7LiPp4y9lIZOY"
+WAYNE_CARPET_API_URL = os.environ.get("WAYNE_CARPET_API_URL", "http://127.0.0.1:8000/chat")
+
+print(WAYNE_CARPET_API_URL)
 
 # Path to your service account JSON key file
 
@@ -75,7 +82,6 @@ def save_client_profile(chat_id, user_id, language):
 
 # Function to save chat message to Firestore
 def save_chat_log(chat_id, role, message):
-    print(message)
     log_data = {
         "timestamp": datetime.now().isoformat(),
         "role": role,
@@ -137,6 +143,7 @@ async def choose_language(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
 
 # Handle chat messages in the selected language
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    print(update.message.text)
     chat_id = update.message.chat_id
     user_message = update.message.text
 
@@ -145,7 +152,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
     try:
         # Send the user's message to the FastAPI chat endpoint
-        response = requests.post(API_URL, json={"message": user_message})
+        response = requests.post(WAYNE_CARPET_API_URL, json={"message": user_message})
         response_data = response.json()
 
         # Check if 'response' is present in the returned JSON
@@ -172,7 +179,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 # Define the conversation handler
 def main():
     # Initialize the Telegram bot application
-    app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
+    app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 
     # Set up the conversation handler with states for LANGUAGE and CHAT
     conv_handler = ConversationHandler(
@@ -186,6 +193,8 @@ def main():
 
     # Register the conversation handler
     app.add_handler(conv_handler)
+    
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     # Start polling for updates
     app.run_polling()
