@@ -21,7 +21,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.GCC_SSH_KEY }}
 
-
       # Backend and Telegram Bot Deployment
       - name: Deploy backend and bot as Docker containers
         run: |
