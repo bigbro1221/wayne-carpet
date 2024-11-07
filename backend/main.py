@@ -81,7 +81,6 @@ system_message_content = f"{instructions}\n\nHere are some example questions and
 async def root():
     return {"message": "Welcome to the Chatbot Backend!"}
 
-
 @app.post("/chat")
 async def chat(data: ChatMessage):
     try:
