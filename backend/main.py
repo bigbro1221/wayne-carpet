@@ -19,7 +19,7 @@ from firebase_admin import firestore
 
 app = FastAPI()
 origins = ["http://localhost:3000"]  # React app runs on port 3000 by default
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="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")
 
 class FineTuneRequest(BaseModel):
     file_id: str
