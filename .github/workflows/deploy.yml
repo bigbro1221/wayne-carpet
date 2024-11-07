@@ -70,23 +70,10 @@ jobs:
             echo "Build folder created successfully."
           fi
 
-      # Debug: Print current working directory
-      - name: Print current directory
-        run: pwd
-
-      # Debug: List files and folders in the current directory
-      - name: List files in current directory
-        run: ls -la
-
-      # Debug: Search for the build folder recursively from the root
-      - name: Search for build folder recursively
-        run: find ./ -type d -name "build"
-
-
       - name: Deploy frontend to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} << 'EOF'
             # Clear old files and copy new build files to the server's web directory
             rm -rf /var/www/html/*  # Clear old files
-            cp -r build/* /var/www/html/  # Copy new build files
+            cp -r ./crm/build* /var/www/html/  # Copy new build files
           EOF
