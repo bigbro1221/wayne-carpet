@@ -73,8 +73,15 @@ jobs:
       - name: Deploy frontend to server
         working-directory: ./crm
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} << 'EOF'
-            # Clear old files and copy new build files to the server's web directory
-            rm -rf /var/www/html/*  # Clear old files
-            cp -r /home/runner/work/wayne-carpet/wayne-carpet/crm/ /var/www/html/  # Copy new build files
-          EOF
+          echo "Current Working Directory: $(pwd)"
+          echo "Contents of the directory: $(ls -la)"
+          echo "Starting deployment....."
+          ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} "cd /var/www/html/ && rm -rf * && exit"
+          scp -o StrictHostKeyChecking=no -r ./build/* ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }}:/var/www/html/
+          echo "Deployment completed."
+        # run: |
+        #   ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} << 'EOF'
+        #     # Clear old files and copy new build files to the server's web directory
+        #     rm -rf /var/www/html/*  # Clear old files
+        #     cp -r /home/runner/work/wayne-carpet/wayne-carpet/crm/ /var/www/html/  # Copy new build files
+        #   EOF
