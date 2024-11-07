@@ -31,21 +31,21 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # # Backend and Telegram Bot Deployment
-      # - name: Deploy backend and bot as Docker containers
-      #   env:
-      #     TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-      #   run: |
-      #     ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} << 'EOF'
-      #       cd /var/www/wayne_carpet
+      # Backend and Telegram Bot Deployment
+      - name: Deploy backend and bot as Docker containers
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} << 'EOF'
+            cd /var/www/wayne_carpet
 
-      #       # Pull latest code
-      #       git pull origin master
+            # Pull latest code
+            git pull origin master
 
-      #       # Build and start Docker containers
-      #       docker-compose down  # Stop existing containers
-      #       docker-compose up -d --build  # Build and start new containers
-      #     EOF
+            # Build and start Docker containers
+            docker-compose down  # Stop existing containers
+            docker-compose up -d --build  # Build and start new containers
+          EOF
 
       # Frontend Deployment
       - name: Set up Node.js for frontend
@@ -60,16 +60,6 @@ jobs:
           CI=false npm run build
 
       
-      - name: Verify build folder
-        working-directory: ./crm
-        run: |
-          if [ ! -d "build" ]; then
-            echo "Build folder does not exist!"
-            exit 1
-          else
-            echo "Build folder created successfully."
-          fi
-
       - name: Deploy frontend to server
         working-directory: ./crm
         run: |
@@ -79,9 +69,3 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} "cd /var/www/html/ && rm -rf * && exit"
           scp -o StrictHostKeyChecking=no -r ./build/* ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }}:/var/www/html/
           echo "Deployment completed."
-        # run: |
-        #   ssh -o StrictHostKeyChecking=no ${{ secrets.GCC_USER }}@${{ secrets.GCC_SERVER_IP }} << 'EOF'
-        #     # Clear old files and copy new build files to the server's web directory
-        #     rm -rf /var/www/html/*  # Clear old files
-        #     cp -r /home/runner/work/wayne-carpet/wayne-carpet/crm/ /var/www/html/  # Copy new build files
-        #   EOF
