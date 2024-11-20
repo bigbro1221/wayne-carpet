@@ -1,5 +1,4 @@
 {"prompt": "Какие услуги вы предлагаете?", "completion": "Мы предлагаем услуги по чистке ковров и мягкой мебели."}
-{"prompt": "Сколько стоит чистка ковров?", "completion": "Стоимость чистки ковров начинается от 50 тысяч сум."}
 {"prompt": "Сколько времени займет работа?", "completion": "В зависимости от количества и размеров ковров — от 3 дней до 1-2 недель."}
 {"prompt": "Бесплатна ли оценка размера и расчет стоимости?", "completion": "Конечно, замеры и консультация абсолютно бесплатны."}
 {"prompt": "Сколько стоит оценка размера и расчет стоимости?", "completion": "Конечно, замеры и консультация абсолютно бесплатны."}
@@ -20,7 +19,6 @@
 {"prompt": "Какие скидки есть для новых клиентов?", "completion": "Мы предлагаем приветственный бонус — скидку 30%"}
 {"prompt": "Какие способы оплаты доступны?", "completion": "Можно оплатить наличными и безналично"}
 {"prompt": "Нима хизматлар таклиф қиласиз?", "completion": "Бизда гилам ювиш ва юмшоқ мебел тозалаш хизматлари мавжуд."}
-{"prompt": "Гилам тозалаш қанча туради?", "completion": "Гилам тозалаш хизматлари 50 минг сўмдан бошланади."}
 {"prompt": "Иш қанча вақтда битади?", "completion": "Гилам сони ва ўлчамларига қараб 3 кундан 1-2 ҳафтагача."}
 {"prompt": "Размер олиб иш ҳақини ҳисоблаш текинми?", "completion": "Албатта, ўлчам олиш ва консультация мутлақо текин."}
 {"prompt": "Ўлчам олиб иш ҳақини ҳисоблаш текинми?", "completion": "Албатта, ўлчам олиш ва консультация мутлақо текин."}
@@ -41,7 +39,6 @@
 {"prompt": "Янги мижозларга қандай чегирмалар бор?", "completion": "Бизда welcome бонус 30%лик чегирма амал қилади"}
 {"prompt": "Тўлов усуллари қандай?", "completion": "Нақд ва нақдсиз тўлов қилишингиз мумкин"}
 {"prompt": "Nima xizmatlar taklif qilasiz?", "completion": "Bizda gilam yuvish va yumshoq mebel tozalash xizmatlari mavjud."}
-{"prompt": "Gilam tozalash qancha turadi?", "completion": "Gilam tozalash xizmatlari 50 ming so‘mdan boshlanadi."}
 {"prompt": "Ish qancha vaqtda bitadi?", "completion": "Gilam soni va o'lchamlariga qarab 3 kundan 1-2 haftagacha."}
 {"prompt": "Razmer olib ish haqini hisoblash tekinmi?", "completion": "Albatta, o'lcham olish va konultasiya mutlaqo tekin."}
 {"prompt": "O'lcham olib ish haqini hisoblash tekinmi?", "completion": "Albatta, o'lcham olish va konultasiya mutlaqo tekin."}

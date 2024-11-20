@@ -52,12 +52,6 @@ DATASET_DIR.mkdir(exist_ok=True)
 class ChatMessage(BaseModel):
     message: str
 
-class FineTuneConfig(BaseModel):
-    learning_rate: Optional[float] = 0.001
-    batch_size: Optional[int] = 16
-    epochs: Optional[int] = 3
-    dataset_path: str  # Path of the uploaded dataset
-
 def load_instructions(filename="datasets/pre-training.jsonl"):
     """Load assistant instructions from pre-training.jsonl."""
     with open(filename, "r", encoding="utf-8") as f:
@@ -93,7 +87,6 @@ async def chat(data: ChatMessage):
         # User's message
         user_message = {"role": "user", "content": data.message}
         # Define the system message with combined instructions and examples
-        print(data.message)
         completion = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[system_message, user_message]
