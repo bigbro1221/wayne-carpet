@@ -15,7 +15,7 @@ import base64
 load_dotenv()
 
 # Set your Telegram bot token and API endpoint URL
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+TELEGRAM_TOKEN = "7670291010:AAEtHCshVs_vABCqP_mNhb7LiPp4y9lIZOY"#os.getenv("TELEGRAM_TOKEN")
 print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)
 
 
@@ -24,12 +24,14 @@ if TELEGRAM_TOKEN is None:
 WAYNE_CARPET_API_URL = os.getenv("WAYNE_CARPET_API_URL")
 
 firebase_service_account_base64 = os.getenv("FIREBASE_SERVICE_ACCOUNT_BASE64")
+print(firebase_service_account_base64)
 if not firebase_service_account_base64:
     raise ValueError("FIREBASE_SERVICE_ACCOUNT_BASE64 is not set in the environment variables.")
 
 # Decode the base64 string to get the JSON content
 firebase_service_account_json = json.loads(base64.b64decode(firebase_service_account_base64))
 
+print(firebase_service_account_json)
 # Initialize Firestore client with direct credentials
 credentials = service_account.Credentials.from_service_account_info(firebase_service_account_json)
 
