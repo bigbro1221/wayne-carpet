@@ -2,6 +2,9 @@
 # Use an official Python runtime as a base image
 FROM python:3.9-slim
 
+ENV PYTHONUNBUFFERED=1
+ENV LOG_LEVEL=INFO
+
 # Set the working directory in the container
 WORKDIR /app
 
