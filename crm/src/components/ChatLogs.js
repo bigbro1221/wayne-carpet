@@ -1,4 +1,3 @@
-// src/components/ChatLogs.js
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useChat } from '../context/ChatContext';
@@ -9,36 +8,61 @@ import { FaArrowDown } from 'react-icons/fa';
 const formatContent = (content) => content.replace(/\\/g, ''); // Clean backslashes
 
 const ChatLogs = () => {
-  const { id } = useParams(); // Get the user_id from the route
+  const { id: userId } = useParams();
   const navigate = useNavigate();
-  const { users, messages, loadMessagesForUser } = useChat();
+  const { users, messages, loadMessagesForUser, loadMoreMessages } = useChat();
   const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [scrollPositions, setScrollPositions] = useState({}); // Store scroll positions
+  const [isInitialLoad, setIsInitialLoad] = useState(true); // Track initial load
+
   const [showScrollButton, setShowScrollButton] = useState(false);
 
+  // Set the selected user and load messages
   useEffect(() => {
-    // Find the user based on the route 'id'
-    const user = users.find((u) => u.user_id == id);
+    const user = users.find((u) => String(u.user_id) === userId);
     if (user) {
-      setSelectedUser(user); // Set selected user
-      loadMessagesForUser(user.user_id); // Load messages for this user
-    } else {
-      setSelectedUser(null); // Clear selection if no valid user
-    }
-  }, [id, users, loadMessagesForUser]); // Depend on 'id' to re-trigger on route change
+      if (user !== selectedUser) {
+        setSelectedUser(user);
+        loadMessagesForUser(userId);
+      }
 
+      // Restore saved scroll position or scroll to bottom on the first load
+      const container = messagesContainerRef.current;
+      if (container) {
+        if (scrollPositions[userId] !== undefined) {
+          container.scrollTop = scrollPositions[userId];
+        } else {
+          scrollToBottom();
+        }
+      }
+      setIsInitialLoad(false); // Mark initial load as complete
+    } else {
+      setSelectedUser(null);
+    }
+  }, [userId, users, loadMessagesForUser]); // Only run when userId changes
+
+  // Save the scroll position for the current user
   const handleUserClick = (user) => {
-    // Update URL to reflect the selected user, staying on the same page
+    const container = messagesContainerRef.current;
+    if (container) {
+      setScrollPositions((prev) => ({
+        ...prev,
+        [userId]: container.scrollTop,
+      }));
+    }
     navigate(`/chat-logs/${user.user_id}`);
   };
 
+  // Scroll to the bottom of the messages
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  // Handle scrolling and pagination
   const handleScroll = () => {
     const container = messagesContainerRef.current;
     if (container) {
@@ -46,20 +70,35 @@ const ChatLogs = () => {
         container.scrollTop < container.scrollHeight - container.clientHeight - 50;
       setShowScrollButton(shouldShowButton);
     }
+    if (container) {
+      const isNearBottom =
+        container.scrollHeight - container.scrollTop - container.clientHeight < 50;
+
+      // Save current scroll position
+      setScrollPositions((prev) => ({
+        ...prev,
+        [userId]: container.scrollTop,
+      }));
+
+      // Load more messages when scrolled past halfway
+      if (container.scrollTop < container.scrollHeight / 2) {
+        loadMoreMessages(userId);
+      }
+    }
   };
 
+  // Attach and detach scroll event listener
   useEffect(() => {
     const container = messagesContainerRef.current;
     if (container) {
-      container.addEventListener("scroll", handleScroll);
-      handleScroll();
+      container.addEventListener('scroll', handleScroll);
     }
     return () => {
       if (container) {
-        container.removeEventListener("scroll", handleScroll);
+        container.removeEventListener('scroll', handleScroll);
       }
     };
-  }, [messages[selectedUser?.user_id]]);
+  }, [userId]); // Attach only when userId changes
 
   return (
     <div className="chat-logs-container" style={{ display: 'flex', flexGrow: 1 }}>
@@ -72,12 +111,11 @@ const ChatLogs = () => {
           backgroundColor: '#1a1a2e',
           color: '#ffffff',
           overflowY: 'auto',
-          boxShadow: '2px 0 5px rgba(0,0,0,0.1)',
         }}
       >
-        <h2 style={{ color: '#ffffff', fontSize: '1.2em', marginBottom: '20px' }}>Users</h2>
-        <ul style={{ listStyleType: 'none', padding: '0' }}>
-          {users.map(user => (
+        <h2 style={{ marginBottom: '20px' }}>Users</h2>
+        <ul style={{ listStyleType: 'none', padding: 0 }}>
+          {users.map((user) => (
             <li
               key={user.user_id}
               onClick={() => handleUserClick(user)}
@@ -98,25 +136,28 @@ const ChatLogs = () => {
       </div>
 
       {/* Chat Messages Area */}
-      <div className="chat-messages" style={{ flex: 1, padding: '20px', overflowY: 'auto', position: 'relative'}}>
+      <div
+        className="chat-messages"
+        style={{ flex: 1, padding: '20px', overflowY: 'auto', position: 'relative' }}
+        ref={messagesContainerRef}
+      >
         {selectedUser ? (
-          <div>
+          <>
             <h2>Chat with {selectedUser.first_name} {selectedUser.last_name}</h2>
-            <div
-              className="messages"
-              ref={messagesContainerRef}
-              style={{ position: 'relative', overflowY: 'auto', maxHeight: '80vh' }}
-            >
-              {messages[selectedUser.user_id]?.length > 0 ? (
-                messages[selectedUser.user_id].map((message, index) => (
-                  <div key={index} className={`chat-item ${message.role === "user" ? "user-message" : "assistant-message"}`}>
+            <div className="messages">
+              {messages[userId]?.length > 0 ? (
+                messages[userId].map((message, index) => (
+                  <div
+                    key={index}
+                    className={`chat-item ${message.role === 'user' ? 'user-message' : 'assistant-message'}`}
+                  >
                     <img
-                      src={message.role === "user" ? userIcon : botIcon}
+                      src={message.role === 'user' ? userIcon : botIcon}
                       alt={message.role}
                       className="profile-icon"
                     />
                     <div
-                      className={`chat-bubble ${message.role === "user" ? "user-bubble" : "assistant-bubble"}`}
+                      className={`chat-bubble ${message.role === 'user' ? 'user-bubble' : 'assistant-bubble'}`}
                       dangerouslySetInnerHTML={{ __html: formatContent(message.message) }}
                     />
                   </div>
@@ -126,7 +167,6 @@ const ChatLogs = () => {
               )}
               <div ref={messagesEndRef} />
             </div>
-            {/* Floating Scroll-to-Bottom Button */}
             <FaArrowDown
               onClick={scrollToBottom}
               style={{
@@ -146,7 +186,7 @@ const ChatLogs = () => {
                 transition: 'opacity 0.3s ease, transform 0.3s ease',
               }}
             />
-          </div>
+          </>
         ) : (
           <p>Select a user to view chat messages</p>
         )}
