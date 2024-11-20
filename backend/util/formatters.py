@@ -14,7 +14,7 @@ def format_content(content):
     formatted_content = re.sub(special_characters, r'\\\1', content)
     
     # Replace **bold** syntax with MarkdownV2-compatible bold (single *)
-    formatted_content = formatted_content.replace("**", "*")
+    # formatted_content = formatted_content.replace("**", "*")
     
     return formatted_content
 
