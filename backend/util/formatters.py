@@ -1,4 +1,4 @@
-
+import re
 class LogColors:
     RESET = "\033[0m"
     BLUE = "\033[34m"
