@@ -5,8 +5,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    environment:
-      TELEGRAM_TOKEN: "${TELEGRAM_TOKEN}"  # Optional, if needed by the backend
     networks:
       - app-network
     restart: always
@@ -15,8 +13,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.bot
-    environment:
-      TELEGRAM_TOKEN: "${TELEGRAM_TOKEN}"
     networks:
       - app-network
     restart: always
