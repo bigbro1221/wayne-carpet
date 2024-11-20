@@ -124,6 +124,7 @@ def save_client_profile(chat_id, user_id, language):
 
 # Function to save chat message to Firestore
 def save_chat_log(chat_id, role, message):
+    logger.info(f"logging chat: {message}")
     log_data = {
         "timestamp": datetime.now().isoformat(),
         "role": role,
