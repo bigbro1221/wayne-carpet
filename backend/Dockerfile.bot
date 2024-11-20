@@ -1,6 +1,8 @@
 # backend/Dockerfile.bot
 FROM python:3.9-slim
 
+ENV PYTHONUNBUFFERED=1  # Ensures Python output is not buffered
+ENV LOG_LEVEL=INFO
 
 WORKDIR /app
 

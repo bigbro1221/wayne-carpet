@@ -11,8 +11,38 @@ from dotenv import load_dotenv
 from google.oauth2 import service_account
 import json
 import base64
+import logging
+
 
 load_dotenv()
+
+class LogColors:
+    RESET = "\033[0m"
+    BLUE = "\033[34m"
+    ORANGE = "\033[33m"  # Orange is represented as yellow in ANSI
+    RED = "\033[31m"
+
+class ColoredFormatter(logging.Formatter):
+    LOG_COLORS = {
+        logging.INFO: LogColors.BLUE,
+        logging.WARNING: LogColors.ORANGE,
+        logging.ERROR: LogColors.RED,
+    }
+
+    def format(self, record):
+        log_color = self.LOG_COLORS.get(record.levelno, LogColors.RESET)
+        message = super().format(record)
+        return f"{log_color}{message}{LogColors.RESET}"
+
+
+formatter = ColoredFormatter("%(asctime)s [%(levelname)s] %(message)s")
+
+handler = logging.StreamHandler()
+handler.setFormatter(formatter)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)  # Adjust the level as needed
+logger.addHandler(handler)
 
 # Set your Telegram bot token and API endpoint URL
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
@@ -183,7 +213,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     except Exception as e:
         # Handle any errors by notifying the user
         error_message = "An error occurred. Please try again later."
-        print(e)
+        logger.error(e)
         await update.message.reply_text(error_message)
 
         # Log the error message
