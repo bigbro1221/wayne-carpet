@@ -15,7 +15,7 @@ import base64
 load_dotenv()
 
 # Set your Telegram bot token and API endpoint URL
-TELEGRAM_TOKEN = "7670291010:AAEtHCshVs_vABCqP_mNhb7LiPp4y9lIZOY"
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)
 
 
